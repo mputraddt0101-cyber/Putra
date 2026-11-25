@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#000000">
+<title>Melodi Cinta 💌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sw:min(100vw, calc(100dvh * .5625));   /* lebar "layar" */
+  --line:rgba(255,255,255,.92);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#000;overflow:hidden}
+body{font-family:'Nunito',system-ui,sans-serif;color:#fff;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+
+#stage{position:relative;width:var(--sw);height:100dvh;margin:0 auto;overflow:hidden;background:#050607}
+
+/* ================= LATAR ================= */
+.bg{position:absolute;inset:0;transition:opacity 2.2s ease, filter 1.6s ease}
+.bg-night{filter:brightness(.55)}
+.bg-night.bright{filter:brightness(1)}
+.bg-dusk{opacity:0}
+.bg-dusk.on{opacity:1}
+.bg-night.off{opacity:0}
+.bg video,.bg img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.shade{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,.15) 40%,rgba(0,0,0,.25));}
+
+/* malam: jalan raya blur */
+.night{position:absolute;inset:0;filter:blur(5px);transform:scale(1.08);
+  background:
+    radial-gradient(60% 30% at 70% 14%,rgba(60,62,70,.35),transparent 70%),
+    linear-gradient(to bottom,#030304 0%,#07080a 40%,#0c0d10 60%,#101114 100%)}
+.road{position:absolute;left:-30%;right:-30%;top:47%;bottom:-5%;
+  background:linear-gradient(to bottom,#1a1b1f,#0d0e10 45%,#141518);
+  clip-path:polygon(44% 0,56% 0,100% 100%,0 100%)}
+.lane{position:absolute;top:47%;bottom:-5%;width:3.2%;left:38%;
+  background:repeating-linear-gradient(to bottom,rgba(255,255,255,.0) 0 22%,rgba(255,255,255,.75) 22% 40%);
+  background-size:100% 120px;animation:lane 1.1s linear infinite;
+  clip-path:polygon(40% 0,60% 0,100% 100%,0 100%);transform:rotate(11deg);transform-origin:top;opacity:.7}
+@keyframes lane{to{background-position:0 120px}}
+.glow{position:absolute;left:0;right:0;top:40%;height:14%;
+  background:radial-gradient(50% 100% at 50% 50%,rgba(255,200,140,.22),transparent 70%)}
+.dot{position:absolute;left:50%;top:48%;width:var(--d);height:var(--d);margin:calc(var(--d)/-2);border-radius:50%;
+  background:radial-gradient(circle,var(--c) 0%,var(--c) 35%,transparent 70%);opacity:0;
+  animation:fly var(--t) linear infinite;animation-delay:var(--w)}
+@keyframes fly{
+  0%{transform:translate(0,0) scale(.15);opacity:0}
+  12%{opacity:.9}
+  100%{transform:translate(var(--dx),var(--dy)) scale(1);opacity:0}}
+
+/* senja: langit oranye + siluet */
+.dusk{position:absolute;inset:0;filter:blur(1.2px);
+  background:
+    radial-gradient(70% 12% at 80% 61%,rgba(225,140,60,.55),transparent 70%),
+    radial-gradient(45% 9% at 12% 66%,rgba(200,120,60,.35),transparent 70%),
+    radial-gradient(90% 18% at 50% 18%,rgba(70,66,70,.35),transparent 70%),
+    linear-gradient(to bottom,#161719 0%,#232224 28%,#2f2c2c 48%,#473c36 60%,#5a4231 67%,#2d2a28 76%,#111 100%)}
+.cloud{position:absolute;border-radius:50%;filter:blur(14px);animation:drift 26s ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateX(var(--mx,30px))}}
+.sil{position:absolute;left:0;right:0;bottom:0;width:100%;height:42%}
+
+/* ================= SCENES ================= */
+.scene{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .9s ease, visibility .9s}
+.scene.on{opacity:1;visibility:visible}
+
+/* ---- Scene 1: sentuh love ---- */
+#s1 .cow{position:absolute;left:50%;top:19.5%;width:30%;transform:translateX(-50%);
+  animation:floaty 3s ease-in-out infinite;transition:opacity .5s, transform .6s}
+@keyframes floaty{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+#heartBtn{position:absolute;left:50%;top:48.8%;width:16%;aspect-ratio:1;margin:-8% 0 0 -8%;border-radius:50%;border:0;
+  background:#f4f4f4;display:grid;place-items:center;cursor:pointer;
+  font-size:calc(var(--sw)*.075);line-height:1;
+  box-shadow:0 0 0 0 rgba(255,255,255,.5);animation:ping 1.8s ease-out infinite;
+  transition:transform .8s cubic-bezier(.2,1.4,.4,1)}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,255,255,.45)}80%,100%{box-shadow:0 0 0 calc(var(--sw)*.07) rgba(255,255,255,0)}}
+#heartBtn span{display:block;transition:transform .3s}
+#heartBtn:active span{transform:scale(.85)}
+#s1 .cap{position:absolute;left:0;right:0;top:55%;text-align:center;font-size:calc(var(--sw)*.026);
+  color:rgba(255,255,255,.85);transition:opacity .5s}
+#s1.tapped .cow,#s1.tapped .cap{opacity:0}
+#s1.tapped #heartBtn{transform:scale(1.85);animation:beat .9s ease-in-out infinite}
+@keyframes beat{0%,100%{box-shadow:0 0 0 0 rgba(255,60,90,.0)}50%{box-shadow:0 0 calc(var(--sw)*.08) rgba(255,70,100,.55)}}
+
+/* ---- Scene 2: kartu pesan ---- */
+#s2 .stk{position:absolute;left:50%;top:11.4%;width:27%;aspect-ratio:1;transform:translateX(-50%);
+  border-radius:calc(var(--sw)*.035);background:rgba(176,176,176,.82);
+  box-shadow:0 8px 24px rgba(0,0,0,.35);display:grid;place-items:center;overflow:hidden}
+#s2 .stk .pic{position:absolute;inset:6%;display:grid;place-items:center;opacity:0;transform:scale(.7) rotate(-6deg);
+  transition:opacity .35s, transform .45s cubic-bezier(.2,1.5,.4,1)}
+#s2 .stk .pic.on{opacity:1;transform:none}
+#s2 .stk svg,#s2 .stk img{width:100%;height:100%;object-fit:contain}
+.car{position:absolute;left:8.5%;width:83%;top:32.8%;overflow:hidden;padding:2px 0;cursor:pointer;touch-action:pan-y}
+.track{display:flex;width:100%;transform:translateX(calc(8.6% - var(--i,0) * 87.9%));
+  transition:transform .55s cubic-bezier(.3,.9,.3,1)}
+.card{flex:0 0 82.8%;margin-right:5.1%;height:calc(var(--sw)*.207);border:1.3px solid var(--line);
+  border-radius:calc(var(--sw)*.038);background:rgba(0,0,0,.5);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+  display:grid;place-items:center;text-align:center;padding:0 7%;
+  font-size:calc(var(--sw)*.037);font-weight:700;line-height:1.35;letter-spacing:.01em;
+  opacity:.92;transition:opacity .4s}
+.card.act{opacity:1}
+#s2 .hint{position:absolute;left:0;right:0;top:48%;text-align:center;font-size:calc(var(--sw)*.024);color:rgba(255,255,255,.8)}
+
+/* ---- Scene 3: surat ---- */
+#s3 .letter{position:absolute;left:21%;width:57%;top:20.7%;
+  font-size:calc(var(--sw)*.036);line-height:1.62;text-align:justify;font-weight:600;
+  text-shadow:0 1px 6px rgba(0,0,0,.5)}
+#s3 .letter p{margin-bottom:1.62em;min-height:1.62em}
+#s3 .caret{display:inline-block;width:1.5px;height:1.05em;background:#fff;vertical-align:-.15em;margin-left:1px;animation:blink .8s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+#s3 .end{text-align:center;font-family:'Fredoka','Nunito',sans-serif;font-weight:600;font-size:1.08em;
+  margin-top:1.1em;opacity:0;transform:translateY(6px);transition:opacity 1.2s, transform 1.2s;letter-spacing:.02em}
+#s3 .end.on{opacity:1;transform:none}
+
+/* tombol musik */
+#mute{position:absolute;right:3.5%;top:calc(env(safe-area-inset-top,0px) + 14px);width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.28);background:rgba(0,0,0,.32);color:#fff;font-size:15px;cursor:pointer;
+  display:none;place-items:center;z-index:10}
+#mute.show{display:grid}
+
+@media (prefers-reduced-motion:reduce){.dot,.lane,.cloud{animation:none}}
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- LATAR MALAM -->
+  <div class="bg bg-night" id="bgNight">
+    <div class="night">
+      <div class="glow"></div>
+      <div class="road"></div>
+      <div class="lane"></div>
+      <div id="dots"></div>
+    </div>
+  </div>
+
+  <!-- LATAR SENJA -->
+  <div class="bg bg-dusk" id="bgDusk">
+    <div class="dusk">
+      <div class="cloud" style="left:-10%;top:30%;width:70%;height:9%;background:rgba(20,20,22,.55);--mx:40px"></div>
+      <div class="cloud" style="left:40%;top:44%;width:75%;height:8%;background:rgba(18,18,20,.5);--mx:-50px"></div>
+      <div class="cloud" style="left:20%;top:56%;width:60%;height:5%;background:rgba(235,150,70,.35);--mx:30px"></div>
+      <div class="cloud" style="left:-5%;top:20%;width:60%;height:7%;background:rgba(80,76,80,.3);--mx:-30px"></div>
+      <svg class="sil" viewBox="0 0 300 250" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+        <g fill="#0b0b0c">
+          <path d="M0 250V190q20-10 40-8l30-14q30-6 50 4l20 8h25v70z"/>
+          <path d="M300 250V176q-30-10-55-4l-35 14q-20 6-25 20v44z"/>
+          <rect x="108" y="108" width="5" height="142"/>
+          <rect x="102" y="104" width="17" height="42" rx="3"/>
+          <rect x="182" y="112" width="5" height="138"/>
+          <rect x="176" y="108" width="17" height="40" rx="3"/>
+          <rect x="190" y="52" width="2.2" height="198"/>
+          <rect x="190" y="52" width="70" height="2.2"/>
+          <rect x="255" y="52" width="14" height="5" rx="2"/>
+          <path d="M10 250V150q3-30 8-40q4 12 5 40v100zM276 250V160q4-26 9-34q3 10 4 34v90z"/>
+        </g>
+        <g>
+          <circle cx="110.5" cy="114" r="2.6" fill="#2fe08a" opacity=".95"/><circle cx="110.5" cy="114" r="6" fill="#2fe08a" opacity=".25"/>
+          <circle cx="184.5" cy="118" r="2.6" fill="#2fe08a" opacity=".95"/><circle cx="184.5" cy="118" r="6" fill="#2fe08a" opacity=".25"/>
+          <circle cx="110.5" cy="124" r="2" fill="#7a1a1a" opacity=".7"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="shade"></div>
+
+  <!-- SCENE 1 -->
+  <section class="scene on" id="s1">
+    <div class="cow" id="cow"></div>
+    <button id="heartBtn" aria-label="Sentuh love"><span>❤️</span></button>
+    <div class="cap">Sentuh LOVEnya!</div>
+  </section>
+
+  <!-- SCENE 2 -->
+  <section class="scene" id="s2">
+    <div class="stk" id="stk"></div>
+    <div class="car" id="car"><div class="track" id="track"></div></div>
+    <div class="hint">Klik untuk Geser!</div>
+  </section>
+
+  <!-- SCENE 3 -->
+  <section class="scene" id="s3">
+    <div class="letter" id="letter"></div>
+  </section>
+
+  <button id="mute" aria-label="Musik">🔊</button>
+</div>
+
+<script>
+/* =====================================================
+   ✏️  BAGIAN YANG BOLEH KAMU UBAH
+   ===================================================== */
+const CONFIG = {
+  // Pesan di kartu (digeser satu per satu). Kartu terakhir membuka surat.
+  kartu: [
+    "hii ayaangggg",
+    "maaf yaa kalo aku suka bkin kamu kesel",
+    "aku cuma mau bilang",
+    "pncet ini dlu ya 👉💌"
+  ],
+
+  // Isi surat (satu item = satu paragraf)
+  surat: [
+    "maaf ya aku belum bisa jadi yang terbaik buat kamu,",
+    "aku juga gabisa sepenuhnya ngertiin gimana cara kamu ingin dicintai,",
+    "aku terlalu banyak kurangnya buat cewe secantik kamu,",
+    "tapi aku akan terus berusaha yang terbaik buat kamu hehe.."
+  ],
+  penutup: "stay with me. i love uu 🤍",
+
+  // (Opsional) pakai gambar/stiker sendiri. Isi nama file gambar, mis. "stiker1.png".
+  // Kosongkan ("") untuk memakai stiker panda bawaan.
+  stikerPembuka: "",                       // stiker kecil di layar pertama
+  stikerKartu:  ["", "", "", ""],          // stiker untuk tiap kartu
+
+  // (Opsional) latar sendiri berupa foto/video. Contoh: "malam.mp4" atau "senja.jpg"
+  latarMalam: "",
+  latarSenja: "",
+
+  kecepatanKetik: 58                       // milidetik per huruf
+};
+const LAGU_SRC = "data:audio/mpeg;base64,SUQzBAAAAAACIVRYWFgAAAASAAADbWFqb3JfYnJhbmQAaXNvbQBUWFhYAAAAEwAAA21pbm9yX3ZlcnNpb24ANTEyAFRYWFgAAAAkAAADY29tcGF0aWJsZV9icmFuZHMAaXNvbWlzbzJhdmMxbXA0MQBUWFhYAAAAIQAAA2FpZ2NfaW5mbwB7ImFpZ2NfbGFiZWxfdHlwZSI6MH0AVFhYWAAAAC4AAANjb21tZW50AHZpZDp2MTQwNDRnNTAwMDBkOXRjaW83b2c2NXVmMWQwMWpqZwBUWFhYAAAAKgAAA3ZpZF9tZDUAMDg1MjBkZTA1M2JkMzVhY2JkNGE2MGM3MmQ3OTM2MzEAVFNTRQAAAA8AAANMYXZmNjAuMTYuMTAwAAAAAAAAAAAAAAD/+3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABJbmZvAAAADwAABZkABtvrAAMFCAoNDxIUFxkcHiEkJikrLjEzNjg7PUBDRUhKTU9SVVdaXF9iZGdpbG5xc3Z4e32AgoWHioyPkpSXmZyeoaSmqauusbO2uLu9wMPFyMrNz9LU19nc3uHj5ujr7fDz9fj6/QAAAABMYXZjNjAuMzEAAAAAAAAAAAAAAAAkA4QAAAAAAAbb60Ei+U0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//twZAAP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAETEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cmR0j/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//twZHUP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cmR0j/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//twZHUP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cmR0j/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//twZHUP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cmR0j/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//twZHUP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cmR0j/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//twZHUP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cmR0j/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//twZHUP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cmR0j/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//twZHUP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cmR0j/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//twZHUP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7cGR1D/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+3JkdI/wAABpAAAACAAADSAAAAEAAAGk
